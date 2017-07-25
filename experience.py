@@ -80,7 +80,7 @@ class Experience():
             if key > self.current_exp:
                 return key - self.current_exp
 
-    def exp_needed_to_reach(self, to_level, from_exp=None):
+    def exp_needed_to_reach(self, to_level, from_exp=None, exp_group=None):
         """
         Loops through the corresponding experience table for the desired level
         and returns the difference between starting_exp and experience required
@@ -91,6 +91,12 @@ class Experience():
         desired_level : integer
             The level you want to know your distance to
 
+        from_exp : integer (default=None)
+            Experience you are starting from. Default becomes current object exp.
+
+        exp_group : string (default=None)
+            Experience group to calculate for. Default becomes current group.
+
         Returns
         -------
         experience : integer
@@ -99,7 +105,10 @@ class Experience():
         """
         if from_exp is None:
             from_exp = self.current_exp
-        for key, value in EXP_TABLES[self.exp_group].items():
+        if exp_group is None:
+            exp_group = self.exp_group
+        value_check(group=exp_group, experience=from_exp)
+        for key, value in EXP_TABLES[exp_group].items():
             if value == to_level:
                 return key - from_exp
 
