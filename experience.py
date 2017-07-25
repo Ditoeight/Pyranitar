@@ -1,6 +1,8 @@
 from experience_tables import build_tables
 
 EXP_TABLES = build_tables()
+GROUPS = ['fluctuating', 'slow', 'medium_slow',
+          'medium_fast', 'fast', 'erratic']
 
 class Experience():
     """Experience.
@@ -21,10 +23,20 @@ class Experience():
             The current experience of the pokemon.
 
     """
+
     def __init__(self, group, current_exp=0):
+
+        if group.lower() not in GROUPS:
+            raise ValueError("group should be one of {}, {} was given".format(
+                GROUPS, group))
+
+        if current_exp < 0 or isinstance(current_exp, int) is False:
+            raise ValueError("current_exp must be a positive whole number,"
+                             " {} was given".format(current_exp))
+
         self.exp_group = group.lower()
         self.current_exp = current_exp
-        self.current_level = self.get_current_level()
+        self.get_current_level() # Calculates and sets current_level
 
     def get_current_level(self):
         """
@@ -77,11 +89,29 @@ class Experience():
             if key > self.current_exp:
                 return key - self.current_exp
 
-    # def exp_needed_to_reach(self, desired_level):
-    #     # Return exp needed to get to the desired level
+    def exp_needed_to_reach(self, desired_level):
+        """
+        Loops through the corresponding experience table for the desired level
+        and returns the difference between current_exp and experience required
+        for that level.
+
+        Parameters
+        ----------
+        desired_level : integer
+            The level you want to know your distance to
+
+        Returns
+        -------
+        experience : integer
+            Returns the amount of experience needed to reach the desired_level
+
+        """
+        for key, value in EXP_TABLES[self.exp_group].items():
+            if value == desired_level:
+                return key - self.current_exp
     #
     # def set_experience_group(self, new_group):
-    #     # Set egg group to the new egg group
+
     #
     # def current_experience(self, new_value):
     #     # Change the current experience to this value
@@ -97,5 +127,5 @@ class Experience():
 
 if __name__ == '__main__':
     a = Experience(group = 'SLOW', current_exp = 50000)
-    print(a.current_level())
-    print(a.to_next_level())
+    print(a.current_level)
+    print(a.exp_needed_to_reach(100))
