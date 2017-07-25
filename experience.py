@@ -1,32 +1,184 @@
-"""Experience Module
-"""
-from experience_tables import ExperienceTables
+from experience_tables import build_tables
+
+EXP_TABLES = build_tables()
+GROUPS = ['fluctuating', 'slow', 'medium_slow',
+          'medium_fast', 'fast', 'erratic']
 
 class Experience():
+    """The Experience Class.
 
-    def __init__(self, group=None, current_exp=0):
-        # Initialize
+    The implementation is based around experience tables created in the
+    experience tables module.
 
-    def current_level(self):
-        # Return current level from current_exp
+    Parameters
+    ----------
+    group : string, required
+            Specifies the experience group the pokemon belongs to.
+            It must be either 'fluctuating', 'slow', 'medium_slow', 'medium_fast',
+            'fast', or 'erratic', or a callable.
+
+    current_exp : integer, optional (default=0)
+            The current experience of the pokemon.
+
+    """
+
+    def __init__(self, group, current_exp=0):
+
+        value_check(group=group, experience=current_exp)
+        self.exp_group = group.lower()
+        self.current_exp = current_exp
+        self.get_current_level() # Calculates and sets current_level
+
+    def get_current_level(self):
+        """
+        Loops through the keys of the corresponding experience table and
+        increases the estimated level by 1 until it overshoots, then sets
+        self.current_level to the previous estimate.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        Notes
+        -----
+        The experience table currently goes to level 101 despite there not
+        actually being a level 101. It does this so the function has a level
+        to overshoot too if the pokemon is at level 100. This should probably
+        be a little cleaner.
+
+        """
+        estimate = 1
+        for key in EXP_TABLES[self.exp_group]:
+            if key <= self.current_exp:
+                estimate += 1
+            else:
+                self.current_level = estimate - 1
+        return self
 
     def to_next_level(self):
-        # Return exp required for level-up
+        """
+        Loops through the keys in the corresponding experience table. When a
+        key is found that is higher than the current experience, returns the
+        difference between those values.
 
-    def exp_needed_to_reach(self, desired_level):
-        # Return exp needed to get to the desired level
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        experience : integer
+            Returns the experience required to reach the next level.
+
+        """
+        for key in EXP_TABLES[self.exp_group]:
+            if key > self.current_exp:
+                return key - self.current_exp
+
+    def exp_needed_to_reach(self, to_level, from_exp=None, exp_group=None):
+        """
+        Loops through the corresponding experience table for the desired level
+        and returns the difference between starting_exp and experience required
+        for the desired level.
+
+        Parameters
+        ----------
+        desired_level : integer
+            The level you want to know your distance to
+
+        from_exp : integer (default=None)
+            Experience you are starting from. Default becomes current object exp.
+
+        exp_group : string (default=None)
+            Experience group to calculate for. Default becomes current group.
+
+        Returns
+        -------
+        experience : integer
+            Returns the amount of experience needed to reach the desired_level
+
+        """
+        if from_exp is None:
+            from_exp = self.current_exp
+        if exp_group is None:
+            exp_group = self.exp_group
+        value_check(group=exp_group, experience=from_exp)
+        for key, value in EXP_TABLES[exp_group].items():
+            if value == to_level:
+                return key - from_exp
 
     def set_experience_group(self, new_group):
-        # Set egg group to the new egg group
+        """
+        Verifies the new group as valid then sets the new group.
 
-    def current_experience(self, new_value):
-        # Change the current experience to this value
+        Parameters
+        ----------
+        new_group : string
+            The new group you want to assign
 
-    def experience_multipliers(self, **kwargs):
-        # Change multiplier values
+        Returns
+        -------
+        self : object
+            Returns self.
 
-    def defeat_opponent(self, **kwargs):
-        # Return experience gained from defeating opponent pokemon
+        """
+        value_check(group=new_group)
+        self.exp_group = new_group
+        return self
 
-    def gain_experience(self, new_current_exp):
-        # Set current exp to new value
+    def set_current_experience(self, new_value):
+        """
+        Changes the object current_exp value to the new_value
+
+        Parameters
+        ----------
+        new_value : integer
+            The new total experience
+
+        Returns
+        self : object
+            Returns self.
+
+        """
+        value_check(experience=new_value)
+        self.current_exp = new_value
+        return self
+
+def value_check(group='slow', experience=0):
+    """
+    Makes sure values related to this module are okay.
+
+    Parameters
+    ----------
+    group : string (default='slow')
+        The experience group to be checked. Slow as default just so it can pass
+        if left blank
+
+    experience : integer (default=0)
+        The experience value to be checked
+
+    Returns
+    -------
+    ValueError : Error
+        Only if the value being checked is no bueno
+
+    """
+    if group.lower() not in GROUPS:
+        raise ValueError("group should be one of {}, {} was given".format(
+            GROUPS, group))
+
+    if experience < 0 or isinstance(experience, int) is False:
+        raise ValueError("current_exp must be a positive whole number,"
+                         " {} was given".format(experience))
+
+if __name__ == '__main__':
+    a = Experience(group = 'SLOW', current_exp = 50000)
+    print(a.current_level)
+    print(a.exp_needed_to_reach(100))
+    a.set_experience_group('fast')
+    a.set_current_experience(10000)

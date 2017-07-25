@@ -1,8 +1,16 @@
 serpyrior
 =========
 
-Serpyrior is cool. It's nothing right now, but it's cool.
+Serpyrior is cool. It can only do stuff with experience right now, but it's cool.
 
+
+Version 0.2.0 - 7/25/2017
+~~~~~~~~~~~~~~~~~~~~~~~
+Experience table and Experience class completed. You can now do some basic
+calculations related to experience:
+- Current level from current experience
+- Distance to a level-up
+- General experience to levels
 
 Version 0.1.0 - 7/24/2017
 ~~~~~~~~~~~~~~~~~~~~~~~~~
