@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 
 from experience_tables import build_tables
 

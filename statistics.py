@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """Statistics module
 """
 from experience import Experience

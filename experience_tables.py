@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """Pokemon Experience Tables
 """
 
