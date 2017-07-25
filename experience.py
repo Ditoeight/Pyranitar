@@ -26,14 +26,7 @@ class Experience():
 
     def __init__(self, group, current_exp=0):
 
-        if group.lower() not in GROUPS:
-            raise ValueError("group should be one of {}, {} was given".format(
-                GROUPS, group))
-
-        if current_exp < 0 or isinstance(current_exp, int) is False:
-            raise ValueError("current_exp must be a positive whole number,"
-                             " {} was given".format(current_exp))
-
+        value_check(group=group, experience=current_exp)
         self.exp_group = group.lower()
         self.current_exp = current_exp
         self.get_current_level() # Calculates and sets current_level
@@ -109,9 +102,24 @@ class Experience():
         for key, value in EXP_TABLES[self.exp_group].items():
             if value == desired_level:
                 return key - self.current_exp
-    #
-    # def set_experience_group(self, new_group):
 
+    def set_experience_group(self, new_group):
+        """
+        Verifies the new group as valid then sets the new group.
+
+        Parameters
+        ----------
+        new_group : string
+            The new group you want to assign
+
+        Returns
+        -------
+        self : object
+            Returns self.
+        """
+        value_check(group=new_group)
+        self.exp_group = new_group
+        return self
     #
     # def current_experience(self, new_value):
     #     # Change the current experience to this value
@@ -125,7 +133,34 @@ class Experience():
     # def gain_experience(self, new_current_exp):
     #     # Set current exp to new value
 
+def value_check(group=None, experience=0):
+    """
+    Makes sure values related to this module are okay.
+
+    Parameters
+    ----------
+    group : string (default=None)
+        The experience group to be checked
+
+    experience : integer (default=0)
+        The experience value to be checked
+
+    Returns
+    -------
+    ValueError : Error
+        Only if the value being checked is no bueno
+
+    """
+    if group.lower() not in GROUPS:
+        raise ValueError("group should be one of {}, {} was given".format(
+            GROUPS, group))
+
+    if experience < 0 or isinstance(experience, int) is False:
+        raise ValueError("current_exp must be a positive whole number,"
+                         " {} was given".format(experience))
+
 if __name__ == '__main__':
     a = Experience(group = 'SLOW', current_exp = 50000)
     print(a.current_level)
     print(a.exp_needed_to_reach(100))
+    a.set_experience_group('fast')
