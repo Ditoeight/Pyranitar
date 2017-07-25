@@ -5,12 +5,10 @@ GROUPS = ['fluctuating', 'slow', 'medium_slow',
           'medium_fast', 'fast', 'erratic']
 
 class Experience():
-    """Experience.
+    """The Experience Class.
 
     The implementation is based around experience tables created in the
-    experience tables module. The Experience class will be inherited by
-    the Statistics class which will ultimately be inherited by the Pokemon
-    class.
+    experience tables module.
 
     Parameters
     ----------
@@ -82,11 +80,11 @@ class Experience():
             if key > self.current_exp:
                 return key - self.current_exp
 
-    def exp_needed_to_reach(self, desired_level):
+    def exp_needed_to_reach(self, to_level, from_exp=None):
         """
         Loops through the corresponding experience table for the desired level
-        and returns the difference between current_exp and experience required
-        for that level.
+        and returns the difference between starting_exp and experience required
+        for the desired level.
 
         Parameters
         ----------
@@ -99,9 +97,11 @@ class Experience():
             Returns the amount of experience needed to reach the desired_level
 
         """
+        if from_exp is None:
+            from_exp = self.current_exp
         for key, value in EXP_TABLES[self.exp_group].items():
-            if value == desired_level:
-                return key - self.current_exp
+            if value == to_level:
+                return key - from_exp
 
     def set_experience_group(self, new_group):
         """
