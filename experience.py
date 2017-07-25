@@ -148,15 +148,6 @@ class Experience():
         value_check(experience=new_value)
         self.current_exp = new_value
         return self
-    #
-    # def experience_multipliers(self, **kwargs):
-    #     # Change multiplier values
-    #
-    # def defeat_opponent(self, **kwargs):
-    #     # Return experience gained from defeating opponent pokemon
-    #
-    # def gain_experience(self, new_current_exp):
-    #     # Set current exp to new value
 
 def value_check(group='slow', experience=0):
     """
