@@ -1,3 +1,4 @@
+
 from experience_tables import build_tables
 
 EXP_TABLES = build_tables()
@@ -22,10 +23,10 @@ class Experience():
 
     """
 
-    def __init__(self, group, current_exp=0):
+    def __init__(self, exp_group='slow', current_exp=0):
 
-        value_check(group=group, experience=current_exp)
-        self.exp_group = group.lower()
+        value_check(group=exp_group, experience=current_exp)
+        self.exp_group = exp_group.lower()
         self.current_exp = current_exp
         self.current_level = self.find_level() # Calculates and sets current_level
 
