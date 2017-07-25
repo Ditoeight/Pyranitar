@@ -125,13 +125,29 @@ class Experience():
         -------
         self : object
             Returns self.
+
         """
         value_check(group=new_group)
         self.exp_group = new_group
         return self
-    #
-    # def current_experience(self, new_value):
-    #     # Change the current experience to this value
+
+    def set_current_experience(self, new_value):
+        """
+        Changes the object current_exp value to the new_value
+
+        Parameters
+        ----------
+        new_value : integer
+            The new total experience
+
+        Returns
+        self : object
+            Returns self.
+
+        """
+        value_check(experience=new_value)
+        self.current_exp = new_value
+        return self
     #
     # def experience_multipliers(self, **kwargs):
     #     # Change multiplier values
@@ -142,14 +158,15 @@ class Experience():
     # def gain_experience(self, new_current_exp):
     #     # Set current exp to new value
 
-def value_check(group=None, experience=0):
+def value_check(group='slow', experience=0):
     """
     Makes sure values related to this module are okay.
 
     Parameters
     ----------
-    group : string (default=None)
-        The experience group to be checked
+    group : string (default='slow')
+        The experience group to be checked. Slow as default just so it can pass
+        if left blank
 
     experience : integer (default=0)
         The experience value to be checked
@@ -173,3 +190,4 @@ if __name__ == '__main__':
     print(a.current_level)
     print(a.exp_needed_to_reach(100))
     a.set_experience_group('fast')
+    a.set_current_experience(10000)
