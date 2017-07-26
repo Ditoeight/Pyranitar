@@ -4,6 +4,7 @@
 """
 
 def build_tables():
+    'Build exp tables, temporary solution'
     exp_tables = {'erratic'     : {1 : 0},
                   'fast'        : {1 : 0},
                   'medium_fast' : {1 : 0},
