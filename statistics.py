@@ -14,14 +14,12 @@ class Statistics(Experience):
 
         super().__init__(exp_group=exp_group, current_exp=current_exp)
 
-
-
         self.base = base
         self.evs = evs
         self.ivs = ivs
         self.nature = NATURES[nature]
         if stats is None:
-            self.stats = get_stats(self.base, self.evs, self.ivs, self.nature)
+            self.stats = self.get_stats(self.base, self.evs, self.ivs, self.nature)
         else:
             self.stats = stats
 
