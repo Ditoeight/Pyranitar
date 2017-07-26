@@ -184,7 +184,7 @@ def value_check(group='slow', experience=0):
                          " {} was given".format(experience))
 
 if __name__ == '__main__':
-    a = Experience(group = 'SLOW', current_exp = 50000)
+    a = Experience(exp_group='SLOW', current_exp = 50000)
     print(a.current_level)
     print(a.exp_needed_to_level(to_level=100))
     a.set_experience_group('fast')
