@@ -59,4 +59,4 @@ def build_tables():
             exp_tables['fluctuating'][level] = int(\
                 level ** 3 * (((level / 2) + 32) / 50))
 
-        return exp_tables
+    return exp_tables

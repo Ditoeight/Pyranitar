@@ -4,7 +4,7 @@
 """
 from experience import Experience
 
-NATURES = {'serious' : []}
+NATURES = {'serious' : [1, 1, 1, 1, 1, 1]}
 
 class Statistics(Experience):
 
@@ -51,3 +51,8 @@ def value_check(nature='serious', stats=None, base=(0, 0, 0, 0, 0, 0),
     if nature not in NATURES:
         raise ValueError("nature must be one of {}, {} was given".format(
             NATURES.keys(), nature))
+
+
+if __name__ == '__main__':
+    a = Statistics(nature='serious', stats=[100, 100, 100, 100, 100, 100], current_exp=10000)
+    print(a.current_level)
