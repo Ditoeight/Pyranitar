@@ -4,7 +4,7 @@
 """
 from experience import Experience
 
-NATURES = {'serious' : (0, 0)}
+NATURES = {'serious' : []}
 
 class Statistics(Experience):
 
@@ -14,17 +14,27 @@ class Statistics(Experience):
 
         super().__init__(exp_group=exp_group, current_exp=current_exp)
 
-        if stats is None:
-            self.stats = get_stats(base, evs, ivs)
-        else:
-            self.stats = stats
+
 
         self.base = base
         self.evs = evs
         self.ivs = ivs
+        self.nature = NATURES[nature]
+        if stats is None:
+            self.stats = get_stats(self.base, self.evs, self.ivs, self.nature)
+        else:
+            self.stats = stats
 
-    # def get_stats(self, base, evs, ivs):
-    #     # Set self.stats to a list of current set_stats
+    def get_stats(self, base, evs, ivs, nature):
+        stats = [0, 0, 0, 0, 0, 0]
+
+        for stat in len(stats):
+            if stat == 0:
+                stats[stat] = (((2 * base[stat] + ivs[stat] + (evs[stat]/4)) * \
+                    self.current_level) / 100)+ self.current_level + 10
+            else:
+                stats[stat] = (((((2 * base[stat] + ivs[stat] + (evs[stat]))* self.current_level)\
+                    /100)+5) * nature[stat])
     #
     # def set_evs(self, evs):
     #     # Set ev list to new ev list, run set_stats at end
