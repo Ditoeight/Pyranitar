@@ -27,7 +27,7 @@ class Experience():
         value_check(group=group, experience=current_exp)
         self.exp_group = group.lower()
         self.current_exp = current_exp
-        self.get_current_level() # Calculates and sets current_level
+        self.current_level = self.get_current_level() # Calculates and sets current_level
 
     def get_current_level(self):
         """
@@ -52,13 +52,48 @@ class Experience():
         be a little cleaner.
 
         """
-        estimate = 1
-        for key in EXP_TABLES[self.exp_group]:
-            if key <= self.current_exp:
-                estimate += 1
+        # estimate = 1
+        # for key in EXP_TABLES[self.exp_group]:
+        #     if key <= self.current_exp:
+        #         estimate += 1
+        #     else:
+        #         self.current_level = estimate - 1
+        # return self
+        if self.current_level is not None:
+            return self.current_level
+        else:
+            return self.find_level(1, 100)
+
+    def find_level(self, lower, higher):
+        """
+        Find the level through binary search.
+        """
+        # if EXP_TABLES[self.exp_group][est_level] > self.current_exp:
+        #     return find_level((est_level - lower) // 2, lower, est_level)
+        #
+        # elif EXP_TABLES[self.exp_group][est_level] == self.current_exp:
+        #     return est_level
+        #
+        # else:
+        #     if EXP_TABLES[self.exp_group][est_level + 1] > self.current_exp:
+        #         return est_level
+        #     else:
+        #         return find_level(self.exp_group, est_level + (est_level // 2))
+        midpoint = lower + ((higher - lower) // 2)
+
+        if EXP_TABLES[self.exp_group][midpoint] > self.current_exp:
+            return find_level(lower, midpoint)
+
+        elif EXP_TABLES[self.exp_group][midpoint] == self.current_exp:
+            return midpoint
+
+        else:
+            if EXP_TABLES[self.exp_group][midpoint + 1] > self.current_exp:
+                return midpoint
+            elif EXP_TABLES[self.exp_group][midpoint + 1] == self.current_exp:
+                return midpoint + 1
             else:
-                self.current_level = estimate - 1
-        return self
+                return find_level(midpoint, higher)
 
     def to_next_level(self):
         """
@@ -76,9 +111,12 @@ class Experience():
             Returns the experience required to reach the next level.
 
         """
-        for key in EXP_TABLES[self.exp_group]:
-            if key > self.current_exp:
-                return key - self.current_exp
+        # for key in EXP_TABLES[self.exp_group]:
+        #     if key > self.current_exp:
+        #         return key - self.current_exp
+        if self.get_current_level() >= 100:
+            return 0
+        return exp_needed_to_reach(self.get_current_level() + 1, self.current_exp, self.exp_group)
 
     def exp_needed_to_reach(self, to_level, from_exp=None, exp_group=None):
         """
@@ -108,9 +146,13 @@ class Experience():
         if exp_group is None:
             exp_group = self.exp_group
         value_check(group=exp_group, experience=from_exp)
-        for key, value in EXP_TABLES[exp_group].items():
-            if value == to_level:
-                return key - from_exp
+        # for key, value in EXP_TABLES[exp_group].items():
+        #     if value == to_level:
+        #         return key - from_exp
+        if EXP_TABLES[exp_group][to_level] > from_exp:
+            return EXP_TABLES[exp_group][to_level] - from_exp
+        else:
+            return 0
 
     def set_experience_group(self, new_group):
         """
@@ -147,6 +189,8 @@ class Experience():
         """
         value_check(experience=new_value)
         self.current_exp = new_value
+        self.current_level = None
+        self.current_level = self.get_current_level()
         return self
 
 def value_check(group='slow', experience=0):
