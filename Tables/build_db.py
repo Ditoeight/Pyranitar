@@ -7,10 +7,14 @@ TABLES = [['Natures', 'nature'],
          ]
 
 PATH = os.path.dirname(__file__)+"/"
+
+
+try: # Little Bobby Tables
+    os.remove(PATH + 'serpyrior.db')
+except FileNotFoundError:
+    pass
+
 CONNECTION = sqlite3.connect(PATH + 'serpyrior.db')
-
-# insert a little jimmy drop tables here
-
 
 for table in TABLES:
     table_name = table[0]
@@ -27,18 +31,3 @@ for table in TABLES:
 
 CONNECTION.commit()
 CONNECTION.close()
-
-# cur = conn.cursor()
-# cur.execute("CREATE TABLE IF NOT EXISTS natures()")
-# filename.encode('utf-8')
-# with open(filename) as f:
-#     reader = csv.reader(f)
-#     for field in reader:
-#         cur.execute("INSERT INTO natures VALUES (?,?,?,?,?,?,?);", field)
-#
-# conn.commit()
-#
-# df = pd.read_sql_query("SELECT * FROM natures", conn, index_col='nature')
-#
-# print(df.head(25))
-# conn.close()
