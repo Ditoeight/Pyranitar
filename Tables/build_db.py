@@ -2,9 +2,9 @@ import sqlite3
 import os
 import pandas as pd
 
-TABLES = ['Pokemon', 'tyler_id']
-         ['Natures', 'nature'],
-         ['Experience'],
+TABLES = [['Pokemon', 'tyler_id'],
+          ['Natures', 'nature'],
+          ['Experience'],
          ]
 
 PATH = os.path.dirname(__file__)+"/"
