@@ -11,11 +11,11 @@ PATH = os.path.dirname(__file__)+"/"
 
 
 try: # Little Bobby Tables
-    os.remove(PATH + 'serpyrior.db')
+    os.remove(PATH + 'Pyranitar.db')
 except FileNotFoundError:
     pass
 
-CONNECTION = sqlite3.connect(PATH + 'serpyrior.db')
+CONNECTION = sqlite3.connect(PATH + 'Pyranitar.db')
 
 for table in TABLES:
     table_name = table[0]
