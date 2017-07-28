@@ -121,6 +121,9 @@ def query_get_nature(nature):
         A list of the stat effects in the order of hp, atk, def, spa, spd, spe.
 
     """
+    check_list = run_query("SELECT nature FROM Natures;")
+    if nature not in check_list:
+        raise ValueError("{} is not a valid nature".format(nature))
 
     sql = "" \
     "SELECT hp, atk, def, spa, spd, spe " \
