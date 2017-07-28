@@ -25,36 +25,30 @@ class Experience():
 
     def __init__(self, exp_group='slow', current_exp=None, level=100):
 
-        value_check(group=exp_group, experience=current_exp, level=level)
+        value_check(group=exp_group)
         self.exp_group = exp_group.lower()
         if current_exp is None:
+            value_check(level=level)
             self.current_level = level
             self.current_exp = query_get_experience(self.exp_group, self.current_level)
         else:
+            value_check(experience=current_exp)
             self.current_exp = current_exp
             self.current_level = query_get_level(self.exp_group, self.current_exp)
 
     def exp_needed_to_level(self, to_level=None):
         """
-        Loops through the corresponding experience table for the desired level
-        and returns the difference between starting_exp and experience required
-        for the desired level.
+        Subtracts current_exp from the level's total_exp for this object.
 
         Parameters
         ----------
-        desired_level : integer
-            The level you want to know your distance to
-
-        from_exp : integer (default=None)
-            Experience you are starting from. Default becomes current object exp.
-
-        exp_group : string (default=None)
-            Experience group to calculate for. Default becomes current group.
+        to_level : integer (default=None)
+            The level you want to get the exp distance to
 
         Returns
         -------
         experience : integer
-            Returns the amount of experience needed to reach the desired_level
+            Returns the amount of experience needed to reach the to_level
 
         """
 
@@ -107,6 +101,13 @@ class Experience():
         value_check(experience=new_value)
         self.current_exp = new_value
         self.current_level = query_get_level(self.exp_group, self.current_exp)
+        return self
+
+    def set_level(self, level):
+
+        value_check(level=level)
+        self.current_level = level
+        self.current_exp = query_get_experience(self.exp_group, self.current_level)
         return self
 
 def value_check(group='slow', experience=0, level=100):
