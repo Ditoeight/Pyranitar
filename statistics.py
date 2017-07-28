@@ -29,7 +29,6 @@ class Statistics(Experience):
         stats = [0, 0, 0, 0, 0, 0]
 
         for stat in range(len(stats)):
-            print(stat)
             if stat == 0:
                 stats[stat] = int((((2 * base[stat] + ivs[stat] + (evs[stat]/4)) * \
                     self.current_level) / 100)+ self.current_level + 10)
