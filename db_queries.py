@@ -4,7 +4,7 @@ import pandas as pd
 
 DB_PATH = os.path.dirname(__file__)+"/Tables/Pyranitar.db"
 
-def query_get_only_base(index, form=None):
+def query_stats_module(index, form=None):
     """
     Queries only the base stats for the Pokemon, for when you want to just
     use the statistics module and not the whole Pokemon module
@@ -34,7 +34,7 @@ def query_get_only_base(index, form=None):
 
     """
     sql = "" \
-    "SELECT base_hp, base_atk, base_def, base_spa, base_spd, base_spe " \
+    "SELECT base_hp, base_atk, base_def, base_spa, base_spd, base_spe, exp_group " \
     "FROM Pokemon " \
     "WHERE dex_number = {} ".format(index)
 
@@ -101,7 +101,7 @@ def query_get_level(group, experience):
     "WHERE exp_group = {} " \
     "AND total_exp <= {} " \
     "ORDER BY total_exp DESC LIMIT 1;".format("'"+ group + "'", experience)
-
+    
     return run_query(sql)[0]
 
 

@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 
-from experience_tables import build_tables
+from db_queries import query_get_experience, query_get_level
 
-EXP_TABLES = build_tables()
 GROUPS = ['fluctuating', 'slow', 'medium_slow',
           'medium_fast', 'fast', 'erratic']
 
@@ -19,67 +18,23 @@ class Experience():
             It must be either 'fluctuating', 'slow', 'medium_slow', 'medium_fast',
             'fast', or 'erratic', or a callable.
 
-    current_exp : integer, optional (default=0)
-            The current experience of the pokemon.
+    current_exp : integer, optional (default=None)
+            The current experience of the pokemon. If left blank,
 
     """
 
-    def __init__(self, exp_group='slow', current_exp=0):
+    def __init__(self, exp_group='slow', current_exp=None, level=100):
 
-        value_check(group=exp_group, experience=current_exp)
+        value_check(group=exp_group, experience=current_exp, level=level)
         self.exp_group = exp_group.lower()
-        self.current_exp = current_exp
-        self.current_level = self.find_level() # Calculates and sets current_level
-
-    def find_level(self, group=None, experience=None, lower=1, higher=100):
-        """
-        Find the level through binary search.
-
-        Parameters
-        ----------
-        group : string (default=None)
-            The group you want to find the level in. If default None is left,
-            self.exp_group is used.
-
-        experience : integer (default=None)
-            Experience value you want the level for. If default None is left,
-            self.current_exp is used.
-
-        lower : integer (default=1)
-            Lower bound for the binary search.
-
-        higher : integer (default=100)
-            Upper bound for the binary search.
-
-        Returns
-        -------
-        self : object
-            Returns self.
-
-        """
-        if experience is None:
-            experience = self.current_exp
-        if group is None:
-            group = self.exp_group
-        value_check(group=group, experience=experience)
-
-        midpoint = lower + ((higher - lower) // 2)
-
-        if EXP_TABLES[group][midpoint] > experience:
-            return self.find_level(lower=lower, higher=midpoint)
-
-        elif EXP_TABLES[group][midpoint] == experience:
-            return midpoint
-
+        if current_exp is None:
+            self.current_level = level
+            self.current_exp = query_get_experience(self.exp_group, self.current_level)
         else:
-            if EXP_TABLES[group][midpoint + 1] > experience:
-                return midpoint
-            elif EXP_TABLES[group][midpoint + 1] == experience:
-                return midpoint + 1
-            else:
-                return self.find_level(lower=midpoint, higher=higher)
+            self.current_exp = current_exp
+            self.current_level = query_get_level(self.exp_group, self.current_exp)
 
-    def exp_needed_to_level(self, to_level=None, from_exp=None, exp_group=None):
+    def exp_needed_to_level(self, to_level=None):
         """
         Loops through the corresponding experience table for the desired level
         and returns the difference between starting_exp and experience required
@@ -102,20 +57,18 @@ class Experience():
             Returns the amount of experience needed to reach the desired_level
 
         """
-        if to_level is None:
+
+        if to_level is None: # If left blank, just set to the next level
             if self.current_level < 100:
                 to_level = self.current_level + 1
-            else:
+            else: # If they're level 100, return 0
                 return 0
-        if from_exp is None:
-            from_exp = self.current_exp
-        if exp_group is None:
-            exp_group = self.exp_group
-        value_check(group=exp_group, experience=from_exp)
-        if EXP_TABLES[exp_group][to_level] > from_exp:
-            return EXP_TABLES[exp_group][to_level] - from_exp
-        else:
+        elif to_level < self.current_level:
             return 0
+
+        value_check(level=to_level)
+
+        return query_get_experience(self.exp_group, to_level) - self.current_exp
 
     def set_experience_group(self, new_group):
         """
@@ -134,6 +87,7 @@ class Experience():
         """
         value_check(group=new_group)
         self.exp_group = new_group
+        self.current_exp = query_get_experience(self.exp_group, self.current_level)
         return self
 
     def set_current_experience(self, new_value):
@@ -152,11 +106,10 @@ class Experience():
         """
         value_check(experience=new_value)
         self.current_exp = new_value
-        self.current_level = None
-        self.current_level = self.find_level()
+        self.current_level = query_get_level(self.exp_group, self.current_exp)
         return self
 
-def value_check(group='slow', experience=0):
+def value_check(group='slow', experience=0, level=100):
     """
     Makes sure values related to this module are okay.
 
@@ -183,9 +136,19 @@ def value_check(group='slow', experience=0):
         raise ValueError("current_exp must be a positive whole number,"
                          " {} was given".format(experience))
 
+    if level < 1 or level > 100:
+        raise ValueError("level must be between 1 and 100, {} was given".format(
+            level))
+
+
 if __name__ == '__main__':
     a = Experience(exp_group='SLOW', current_exp = 50000)
     print(a.current_level)
     print(a.exp_needed_to_level(to_level=100))
     a.set_experience_group('fast')
+    print(a.current_exp)
     a.set_current_experience(10000)
+    print(a.current_level)
+    print(a.exp_needed_to_level())
+    a.set_current_experience(a.current_exp + 1060)
+    print(a.current_level)
