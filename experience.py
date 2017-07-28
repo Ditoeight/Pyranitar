@@ -8,18 +8,18 @@ GROUPS = ['fluctuating', 'slow', 'medium_slow',
 class Experience():
     """The Experience Class.
 
-    The implementation is based around experience tables created in the
-    experience tables module.
-
     Parameters
     ----------
     group : string, required
-            Specifies the experience group the pokemon belongs to.
-            It must be either 'fluctuating', 'slow', 'medium_slow', 'medium_fast',
-            'fast', or 'erratic', or a callable.
+        Specifies the experience group the pokemon belongs to.
+        It must be either 'fluctuating', 'slow', 'medium_slow', 'medium_fast',
+        'fast', or 'erratic', or a callable.
 
     current_exp : integer, optional (default=None)
-            The current experience of the pokemon. If left blank,
+        The current experience of the pokemon. If left blank,
+
+    level : integer, optional (default=100)
+        the
 
     """
 
