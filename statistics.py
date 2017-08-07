@@ -177,6 +177,25 @@ class Statistics(Experience):
         return self
 
     def __pull_data(self, dex_no, form):
+        """
+        Private Method
+
+        Pulls data from the database and cuts it up into the relevant pieces.
+
+        Parameters
+        ----------
+        dex_no : integer, required
+            The national dex number for the pokemon you are calculating stats for.
+
+        form : string, optional (default=None)
+            The form you want to calculate for.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
         pull = query_stats_module(dex_no, form)
         self.dex_no = dex_no
         self.base = pull[:6]
