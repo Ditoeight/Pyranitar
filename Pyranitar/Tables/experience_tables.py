@@ -1,7 +1,10 @@
+#!/usr/bin/python3
+
 """Pokemon Experience Tables
 """
 
 def build_tables():
+    'Build exp tables, temporary solution'
     exp_tables = {'erratic'     : {1 : 0},
                   'fast'        : {1 : 0},
                   'medium_fast' : {1 : 0},
@@ -56,4 +59,4 @@ def build_tables():
             exp_tables['fluctuating'][level] = int(\
                 level ** 3 * (((level / 2) + 32) / 50))
 
-        return exp_tables
+    return exp_tables

@@ -4,7 +4,7 @@ import pandas as pd
 
 DB_PATH = os.path.dirname(__file__)+"/Tables/Pyranitar.db"
 
-def query_get_only_base(index, form=None):
+def query_stats_module(index, form=None):
     """
     Queries only the base stats for the Pokemon, for when you want to just
     use the statistics module and not the whole Pokemon module
@@ -34,7 +34,8 @@ def query_get_only_base(index, form=None):
 
     """
     sql = "" \
-    "SELECT base_hp, base_atk, base_def, base_spa, base_spd, base_spe " \
+    "SELECT base_hp, base_atk, base_def, base_spa, base_spd, " \
+           "base_spe, exp_group, form, name " \
     "FROM Pokemon " \
     "WHERE dex_number = {} ".format(index)
 
@@ -121,6 +122,9 @@ def query_get_nature(nature):
         A list of the stat effects in the order of hp, atk, def, spa, spd, spe.
 
     """
+    check_list = run_query("SELECT nature FROM Natures;")
+    if nature not in check_list:
+        raise ValueError("{} is not a valid nature".format(nature))
 
     sql = "" \
     "SELECT hp, atk, def, spa, spd, spe " \
@@ -188,7 +192,7 @@ def form_check(index, form):
     if check_list is None: # If there are no forms, fuck 'em up
         raise ValueError("This Pokemon has no alternate forms.")
 
-    check_list = check_list.split(',')
+    check_list = check_list.split(', ')
     if form not in check_list: # If it isn't there, fuck 'em up
         raise ValueError("{} is not a valid form for this Pokemon, " \
             "please use one of: {}".format(form, check_list))
@@ -197,4 +201,4 @@ if __name__ == '__main__':
     print(query_get_nature('adamant'))
     print(query_get_level('slow', 50000))
     print(query_get_experience('slow', 34))
-    print(query_get_only_base(3, form='mega'))
+    print(query_stats_module(3, form='mega'))
