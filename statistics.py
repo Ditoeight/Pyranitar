@@ -41,13 +41,7 @@ class Statistics(Experience):
     def __init__(self, dex_no, form=None, nature='serious', evs=(0, 0, 0, 0, 0, 0),
                  ivs=(0, 0, 0, 0, 0, 0), current_exp=None, level=100):
 
-        pull = query_stats_module(dex_no, form)
-
-        self.dex_no = dex_no
-        self.base = pull[:6]
-        self.exp_group = pull[6]
-        self.form = pull[7]
-        self.name = pull[8]
+        self.__pull_data(dex_no, form)
 
         super().__init__(exp_group=self.exp_group, current_exp=current_exp, level=level)
 
@@ -57,6 +51,19 @@ class Statistics(Experience):
         self.get_stats()
 
     def get_stats(self):
+        """
+        Sets self.stats based on base, ivs, evs, and nature.
+
+        Parameters
+        ----------
+        Nothing.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
         stats = [0, 0, 0, 0, 0, 0]
 
         for stat in range(6):
@@ -70,33 +77,106 @@ class Statistics(Experience):
         return self
 
     def set_evs(self, evs):
+        """
+        Sets evs to the new list
+
+        Parameters
+        ----------
+        evs : list, required
+            The list of evs you want to set.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
         self.evs = evs
         self.get_stats()
         return self
 
     def set_ivs(self, ivs):
+        """
+        Sets ivs to the new list
+
+        Parameters
+        ----------
+        ivs : list, required
+            The list of ivs you want to set.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
         self.ivs = ivs
         self.get_stats()
         return self
 
     def set_nature(self, nature):
+        """
+        Sets nature to the new nature list
+
+        Parameters
+        ----------
+        nature : list, required
+            The nature you want to set.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
         self.nature = query_get_nature(nature)
         self.get_stats()
         return self
 
     def change_form(self, new_form):
-        self.pull_data(self.dex_no, new_form)
+        """
+        Sets form to the new form and recalculates stats
+
+        Parameters
+        ----------
+        new_form : string, required
+            The new form.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
+        self.__pull_data(self.dex_no, new_form)
         self.get_stats()
         return self
 
     def change_pokemon(self, dex_no, form=None):
-        self.pull_data(dex_no, form)
+        """
+        Changes the pokemon this instance of the object refers to.
+
+        Parameters
+        ----------
+        dex_no : integer, required
+            The national dex number for the pokemon you are calculating stats for.
+
+        form : string, optional (default=None)
+            The form you want to calculate for.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
+        self.__pull_data(dex_no, form)
         self.get_stats()
         super().__init__(exp_group=self.exp_group, current_exp=int(self.current_exp),
                          level=self.current_level)
         return self
 
-    def pull_data(self, dex_no, form):
+    def __pull_data(self, dex_no, form):
         pull = query_stats_module(dex_no, form)
         self.dex_no = dex_no
         self.base = pull[:6]
@@ -107,7 +187,7 @@ class Statistics(Experience):
 
 
 if __name__ == '__main__':
-    a = Statistics(dex_no=3, nature='adamant', evs=[4, 0, 0, 252, 0, 252],
+    a = Statistics(dex_no=3, nature='timid', evs=[252, 0, 0, 252, 0, 252],
                    ivs=[31, 31, 31, 31, 31, 31])
     print(a.current_level)
     print(a.stats)
@@ -117,3 +197,4 @@ if __name__ == '__main__':
     print(a.stats)
     a.change_pokemon(25)
     print(a.stats)
+    print(a.name)
