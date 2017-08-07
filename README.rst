@@ -1,45 +1,17 @@
 Pyranitar
 =========
 
-Pyranitar is cool. It can only do stuff with experience right now, but it's cool.
+Pyranitar is a Python package that provides the framework for a Pokemon object.
+The idea is to make working with Pokemon in Python intuitive and easy to use,
+requiring only a basic understanding of Python to start building Pokemon
+related apps.
 
-Version 0.3.0 - 7/27/2017
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Database builder finished and the three main tables built. To build the
-database on your computer, run build_db.py and then Pyranitar.db will be created
-in that tables folder. The database is just a sqlite database so realistically,
-you can just use it on it's own if that's all you're interested in.
+Features
+--------
+- A sqlite database with a ton of pokemon data
+- An easy-to-use pokemon class, just pass in a dex number to get started
 
-- Experience, Natures, and Pokemon tables built
-
-- Database builder finished, turns .csv files into sqlite db
-
-Version 0.2.2 - 7/27/2017
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Goodbye serpyrior, hello Pyranitar.
-
-- Changed project name from serpyrior to Pyranitar
-
-
-Version 0.2.1 - 7/26/2017
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Experience tables flipped around and Experience class modified to reflect those changes.
-
-Version 0.2.1 - 7/26/2017
-~~~~~~~~~~~~~~~~~~~~~~~
-Experience tables flipped around and Experience class modified to reflect those changes.
-
-Version 0.2.0 - 7/25/2017
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Experience table and Experience class completed. You can now do some basic
-calculations related to experience:
-
-- Current level from current experience
-
-- Distance to a level-up
-
-- General experience to levels
-
-Version 0.1.0 - 7/24/2017
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Initial commit - Skeletons built for the project.
+Installation
+------------
+As of right now the only way to use Pyranitar is to download or clone the
+repository. Availability through PyPI in progress.
