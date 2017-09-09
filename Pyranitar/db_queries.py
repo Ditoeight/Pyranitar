@@ -4,6 +4,23 @@ import pandas as pd
 
 DB_PATH = os.path.dirname(__file__)+"/Tables/Pyranitar.db"
 
+def query_experience_yield(index, form=None):
+
+    sql = "" \
+    "SELECT exp_yield " \
+    "FROM Pokemon " \
+    "WHERE dex_number = {} ".format(index)
+
+    if form is not None:
+        form_check(index, form)
+        sql = sql + "AND form = {};".format("'" + form + "'")
+        return run_query(sql)
+
+    sql = sql + "ORDER BY tyler_id ASC LIMIT 1;"
+    return run_query(sql)[0]
+
+
+
 def query_stats_module(index, form=None):
     """
     Queries only the base stats for the Pokemon, for when you want to just
@@ -202,3 +219,4 @@ if __name__ == '__main__':
     print(query_get_level('slow', 50000))
     print(query_get_experience('slow', 34))
     print(query_stats_module(3, form='mega'))
+    print(query_experience_yield(3, form='mega'))
