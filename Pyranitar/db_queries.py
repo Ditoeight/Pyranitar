@@ -5,6 +5,23 @@ import pandas as pd
 DB_PATH = os.path.dirname(__file__)+"/Tables/Pyranitar.db"
 
 def query_experience_yield(index, form=None):
+    """
+    To be used in the pokemon module for calculating experience gained, takes in a dex
+    number and optional form to return the base experience yield for that pokemon.
+
+    Parameters
+    ----------
+    index : integer, required
+        The National Dex number of the pokemon you want to load
+
+    form : string (default=None)
+        The form of the pokemon you want to load
+
+    Returns
+    -------
+    exp_yield : integer
+        The base experiene yield for the queried pokemon
+    """
 
     sql = "" \
     "SELECT exp_yield " \
