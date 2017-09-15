@@ -76,6 +76,21 @@ class Statistics(Experience):
         self.stats = stats
         return self
 
+    def get_evs(self):
+        """
+        Gets EVs in a list
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        ---------
+        current_evs : List[integer]
+            returns the list of EVs currently set for the Pokemon
+        """
+        return self.evs
+
     def set_evs(self, evs):
         """
         Sets evs to the new list
@@ -95,6 +110,21 @@ class Statistics(Experience):
         self.get_stats()
         return self
 
+    def get_ivs(self):
+        """
+        Gets IVs in a list
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        ---------
+        current_ivs : List[integer]
+            returns the list of IVs currently set for the Pokemon
+        """
+        return self.ivs
+
     def set_ivs(self, ivs):
         """
         Sets ivs to the new list
@@ -113,6 +143,22 @@ class Statistics(Experience):
         self.ivs = ivs
         self.get_stats()
         return self
+
+    def get_nature(self, nature):
+        """
+        Sets nature to the new nature list
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        self.nature : string
+
+        """
+        return self.nature
+
 
     def set_nature(self, nature):
         """
