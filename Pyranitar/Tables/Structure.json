@@ -1,0 +1,49 @@
+{
+  "id": 1,
+  "dex_no": 1,
+  "species": "Bulbasaur",
+  "form": "Normal",
+  "name": "Bulbasaur",
+  "class": "Seed Pokemon",
+  "alternate_forms": [],
+  "types":[
+    "grass",
+    "poison"
+  ],
+  "abilities": [
+      {
+      "name": "Overgrow",
+      "active": true
+      },
+      {
+      "name": "Chlorophyll",
+      "active": false
+      }
+  ],
+  "stats": {
+    "base": [
+      45,
+      49,
+      49,
+      65,
+      65,
+      49
+    ],
+    "exp_yield": 64,
+    "ev_yield": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "base_friendship": 70,
+    "catch_rate": 45
+  },
+  "egg_groups": [
+    "Monster",
+    "Grass"
+  ],
+
+}
