@@ -43,7 +43,8 @@ class Statistics(Experience):
 
         self.__pull_data(dex_no, form)
 
-        super().__init__(exp_group=self.exp_group, current_exp=current_exp, level=level)
+        super(Statistics, self).__init__(exp_group=self.exp_group,
+                                         current_exp=current_exp, level=level)
 
         self.evs = evs
         self.ivs = ivs

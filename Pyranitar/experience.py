@@ -5,7 +5,7 @@ from db_queries import query_get_experience, query_get_level
 GROUPS = ['fluctuating', 'slow', 'medium_slow',
           'medium_fast', 'fast', 'erratic']
 
-class Experience():
+class Experience(object):
     """The Experience Class.
 
     Parameters
